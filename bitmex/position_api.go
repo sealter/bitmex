@@ -26,7 +26,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
+	// "log"
 	"net/url"
 	"strconv"
 )
@@ -104,21 +104,21 @@ func (a PositionApi) PositionGet(filter string, columns string, count float32) (
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
 	SetApiHeader(headerParams, &a.Configuration, httpMethod, path, formParams, queryParams)
-	var successPayload = new([]Position)
+
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return nil, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	if httpResponse.StatusCode() != 200 {
-		log.Println(httpResponse.Status())
-		errErr := new(ModelError)
-		err = json.Unmarshal(httpResponse.Body(), errErr)
-		log.Println(string(httpResponse.Body()))
-		log.Println(*errErr)
-		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		rep := new(ModelError)
+		json.Unmarshal(httpResponse.Body(), &rep)
+		return nil, NewAPIResponse(httpResponse.RawResponse),  errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	rep := new([]Position)
+	err = json.Unmarshal(httpResponse.Body(), &rep)
+	return *rep, NewAPIResponse(httpResponse.RawResponse), err
+	// err = json.Unmarshal(httpResponse.Body(), &successPayload)
+	// return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**

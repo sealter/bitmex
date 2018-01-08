@@ -801,7 +801,7 @@ func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
 		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
-	if httpResponse.RawResponse.StatusCode != 200 {
+	if httpResponse.StatusCode() != 200 {
 		rep := new(ModelError)
 		json.Unmarshal(httpResponse.Body(), &rep)
 		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
@@ -864,7 +864,7 @@ func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
 		return nil, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
-	if httpResponse.RawResponse.StatusCode != 200 {
+	if httpResponse.StatusCode() != 200 {
 		rep := new(ModelError)
 		json.Unmarshal(httpResponse.Body(), &rep)
 		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
@@ -937,7 +937,7 @@ func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
  * @param currency
  * @return []Transaction
  */
-func (a UserApi) UserGetWalletSummary(currency string) ([]Transaction, *APIResponse, error) {
+func (a UserApi) UserGetWalletSummary(currency string) ([]Summary, *APIResponse, error) {
 
 	var httpMethod = "Get"
 	// create path and map variables
@@ -984,12 +984,12 @@ func (a UserApi) UserGetWalletSummary(currency string) ([]Transaction, *APIRespo
 		return nil, NewAPIResponse(httpResponse.RawResponse), err
 	}
 	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
-	if httpResponse.RawResponse.StatusCode != 200 {
+	if httpResponse.StatusCode() != 200 {
 		rep := new(ModelError)
 		json.Unmarshal(httpResponse.Body(), &rep)
 		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
 	}
-	rep := new([]Transaction)
+	rep := new([]Summary)
 	err = json.Unmarshal(httpResponse.Body(), &rep)
 	return *rep, NewAPIResponse(httpResponse.RawResponse), err
 }

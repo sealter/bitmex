@@ -51,3 +51,29 @@ type Transaction struct {
 
 	Timestamp time.Time `json:"timestamp,omitempty"`
 }
+
+type Summary struct {
+
+	Account float32 `json:"account,omitempty"`
+
+	Currency string `json:"currency,omitempty"`
+
+	TransactType string `json:"transactType,omitempty"`
+	
+	Symbol string `json:"symbol,omitempty"`
+
+	Amount float32 `json:"amount,omitempty"`
+
+	PendingDebit float32 `json:"pendingDebit,omitempty"`
+
+	RealisedPnl float32 `json:"realisedPnl,omitempty"`
+
+	WalletBalance float32 `json:"walletBalance,omitempty"`
+
+	UnrealisedPnl float32 `json:"unrealisedPnl,omitempty"`
+
+	MarginBalance float32 `json:"marginBalance,omitempty"`
+}
+
+
+

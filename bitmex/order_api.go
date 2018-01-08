@@ -686,7 +686,7 @@ func (a OrderApi) OrderCreate(symbol, side, ordType string, orderQty, price floa
 	// log.Println("httpResponse.Body()", string(httpResponse.Body()))
 	// err = json.Unmarshal(httpResponse.Body(), &successPayload)
 	// return successPayload, NewAPIResponse(httpResponse.RawResponse), err
-	if httpResponse.RawResponse.StatusCode != 200 {
+	if httpResponse.StatusCode() != 200 {
 		rep := new(ModelError)
 		json.Unmarshal(httpResponse.Body(), &rep)
 		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
