@@ -27,3 +27,9 @@ type ErrorError struct {
 
 	Name string `json:"name,omitempty"`
 }
+
+
+type ApiResponse struct {
+	Error *ErrorError  `json:"error,omitempty"`
+	Data interface{}
+}

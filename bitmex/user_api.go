@@ -26,6 +26,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	// "log"
 	"net/url"
 	"strconv"
 )
@@ -702,6 +703,56 @@ func (a UserApi) UserGetMargin(currency string) (*Margin, *APIResponse, error) {
  * @param currency
  * @return *Wallet
  */
+// func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
+
+// 	var httpMethod = "Get"
+// 	// create path and map variables
+// 	path := a.Configuration.BasePath + "/user/wallet"
+
+// 	headerParams := make(map[string]string)
+// 	queryParams := url.Values{}
+// 	formParams := make(map[string]string)
+// 	var postBody interface{}
+// 	var fileName string
+// 	var fileBytes []byte
+
+// 	// add default headers if any
+// 	for key := range a.Configuration.DefaultHeader {
+// 		headerParams[key] = a.Configuration.DefaultHeader[key]
+// 	}
+// 	queryParams.Add("currency", a.Configuration.APIClient.ParameterToString(currency, ""))
+
+// 	// to determine the Content-Type header
+// 	localVarHttpContentTypes := []string{"application/json", "application/x-www-form-urlencoded"}
+
+// 	// set Content-Type header
+// 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+// 	if localVarHttpContentType != "" {
+// 		headerParams["Content-Type"] = localVarHttpContentType
+// 	}
+// 	// to determine the Accept header
+// 	localVarHttpHeaderAccepts := []string{
+// 		"application/json",
+// 		"application/xml",
+// 		"text/xml",
+// 		"application/javascript",
+// 		"text/javascript",
+// 	}
+
+// 	// set Accept header
+// 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+// 	if localVarHttpHeaderAccept != "" {
+// 		headerParams["Accept"] = localVarHttpHeaderAccept
+// 	}
+// 	SetApiHeader(headerParams, &a.Configuration, httpMethod, path, formParams, queryParams)
+// 	var successPayload = new(Wallet)
+// 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+// 	if err != nil {
+// 		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+// 	}
+// 	err = json.Unmarshal(httpResponse.Body(), &successPayload)
+// 	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+// }
 func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
 
 	var httpMethod = "Get"
@@ -749,8 +800,15 @@ func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
 	if err != nil {
 		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
+	if httpResponse.RawResponse.StatusCode != 200 {
+		rep := new(ModelError)
+		json.Unmarshal(httpResponse.Body(), &rep)
+		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+	}
+	rep := new(Wallet)
+	err = json.Unmarshal(httpResponse.Body(), &rep)
+	return rep, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
@@ -759,7 +817,7 @@ func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
  * @param currency
  * @return []Transaction
  */
-func (a UserApi) UserGetWalletHistory(currency string) ([]Transaction, *APIResponse, error) {
+ func (a UserApi) UserGetWalletHistory(currency string) ([]Transaction, *APIResponse, error) {
 
 	var httpMethod = "Get"
 	// create path and map variables
@@ -800,14 +858,78 @@ func (a UserApi) UserGetWalletHistory(currency string) ([]Transaction, *APIRespo
 	if localVarHttpHeaderAccept != "" {
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new([]Transaction)
+	SetApiHeader(headerParams, &a.Configuration, httpMethod, path, formParams, queryParams)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return nil, NewAPIResponse(httpResponse.RawResponse), err
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
+	if httpResponse.RawResponse.StatusCode != 200 {
+		rep := new(ModelError)
+		json.Unmarshal(httpResponse.Body(), &rep)
+		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+	}
+	rep := new([]Transaction)
+	err = json.Unmarshal(httpResponse.Body(), &rep)
+	return *rep, NewAPIResponse(httpResponse.RawResponse), err
 }
+
+// func (a UserApi) UserGetWalletHistory(currency string) ([]Transaction, *APIResponse, error) {
+
+// 	var httpMethod = "Get"
+// 	// create path and map variables
+// 	path := a.Configuration.BasePath + "/user/walletHistory"
+
+// 	headerParams := make(map[string]string)
+// 	queryParams := url.Values{}
+// 	formParams := make(map[string]string)
+// 	var postBody interface{}
+// 	var fileName string
+// 	var fileBytes []byte
+
+// 	// add default headers if any
+// 	for key := range a.Configuration.DefaultHeader {
+// 		headerParams[key] = a.Configuration.DefaultHeader[key]
+// 	}
+// 	queryParams.Add("currency", a.Configuration.APIClient.ParameterToString(currency, ""))
+
+// 	// to determine the Content-Type header
+// 	localVarHttpContentTypes := []string{"application/json", "application/x-www-form-urlencoded"}
+
+// 	// set Content-Type header
+// 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+// 	if localVarHttpContentType != "" {
+// 		headerParams["Content-Type"] = localVarHttpContentType
+// 	}
+// 	// to determine the Accept header
+// 	localVarHttpHeaderAccepts := []string{
+// 		"application/json",
+// 		"application/xml",
+// 		"text/xml",
+// 		"application/javascript",
+// 		"text/javascript",
+// 	}
+
+// 	// set Accept header
+// 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+// 	if localVarHttpHeaderAccept != "" {
+// 		headerParams["Accept"] = localVarHttpHeaderAccept
+// 	}
+
+// 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+// 	if err != nil {
+// 		return nil, NewAPIResponse(httpResponse.RawResponse), err
+// 	}
+// 	if httpResponse.RawResponse.StatusCode != 200 {
+// 		rep := new(ModelError)
+// 		json.Unmarshal(httpResponse.Body(), &rep)
+// 		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+// 	}
+// 	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
+// 	rep := new([]Transaction)
+// 	err = json.Unmarshal(httpResponse.Body(), &rep)
+// 	return *rep, NewAPIResponse(httpResponse.RawResponse), err
+// }
 
 /**
  * Get a summary of all of your wallet transactions (deposits, withdrawals, PNL).
@@ -856,13 +978,20 @@ func (a UserApi) UserGetWalletSummary(currency string) ([]Transaction, *APIRespo
 	if localVarHttpHeaderAccept != "" {
 		headerParams["Accept"] = localVarHttpHeaderAccept
 	}
-	var successPayload = new([]Transaction)
+	SetApiHeader(headerParams, &a.Configuration, httpMethod, path, formParams, queryParams)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 	if err != nil {
-		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return nil, NewAPIResponse(httpResponse.RawResponse), err
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
+	if httpResponse.RawResponse.StatusCode != 200 {
+		rep := new(ModelError)
+		json.Unmarshal(httpResponse.Body(), &rep)
+		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+	}
+	rep := new([]Transaction)
+	err = json.Unmarshal(httpResponse.Body(), &rep)
+	return *rep, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**

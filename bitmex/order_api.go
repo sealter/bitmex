@@ -683,9 +683,18 @@ func (a OrderApi) OrderCreate(symbol, side, ordType string, orderQty, price floa
 	if err != nil {
 		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
 	}
-	log.Println("httpResponse.Body()", string(httpResponse.Body()))
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	// log.Println("httpResponse.Body()", string(httpResponse.Body()))
+	// err = json.Unmarshal(httpResponse.Body(), &successPayload)
+	// return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	if httpResponse.RawResponse.StatusCode != 200 {
+		rep := new(ModelError)
+		json.Unmarshal(httpResponse.Body(), &rep)
+		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+	}
+	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
+	rep := new(Order)
+	err = json.Unmarshal(httpResponse.Body(), &rep)
+	return rep, NewAPIResponse(httpResponse.RawResponse), err
 }
 
 /**
