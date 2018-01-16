@@ -112,9 +112,10 @@ func (a PositionApi) PositionGet(filter string, columns string, count float32) (
 	if httpResponse.StatusCode() != 200 {
 		rep := new(ModelError)
 		json.Unmarshal(httpResponse.Body(), &rep)
-		return nil, NewAPIResponse(httpResponse.RawResponse),  errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s", rep.Error_.Name, rep.Error_.Message))
 	}
 	rep := new([]Position)
+	// log.Println("PositionGet Json:", string(httpResponse.Body()))
 	err = json.Unmarshal(httpResponse.Body(), &rep)
 	return *rep, NewAPIResponse(httpResponse.RawResponse), err
 	// err = json.Unmarshal(httpResponse.Body(), &successPayload)

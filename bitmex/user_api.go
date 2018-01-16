@@ -804,7 +804,7 @@ func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
 	if httpResponse.StatusCode() != 200 {
 		rep := new(ModelError)
 		json.Unmarshal(httpResponse.Body(), &rep)
-		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s", rep.Error_.Name, rep.Error_.Message))
 	}
 	rep := new(Wallet)
 	err = json.Unmarshal(httpResponse.Body(), &rep)
@@ -817,7 +817,7 @@ func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
  * @param currency
  * @return []Transaction
  */
- func (a UserApi) UserGetWalletHistory(currency string) ([]Transaction, *APIResponse, error) {
+func (a UserApi) UserGetWalletHistory(currency string) ([]Transaction, *APIResponse, error) {
 
 	var httpMethod = "Get"
 	// create path and map variables
@@ -867,7 +867,7 @@ func (a UserApi) UserGetWallet(currency string) (*Wallet, *APIResponse, error) {
 	if httpResponse.StatusCode() != 200 {
 		rep := new(ModelError)
 		json.Unmarshal(httpResponse.Body(), &rep)
-		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s", rep.Error_.Name, rep.Error_.Message))
 	}
 	rep := new([]Transaction)
 	err = json.Unmarshal(httpResponse.Body(), &rep)
@@ -983,11 +983,11 @@ func (a UserApi) UserGetWalletSummary(currency string) ([]Summary, *APIResponse,
 	if err != nil {
 		return nil, NewAPIResponse(httpResponse.RawResponse), err
 	}
-	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
+	// log.Println("UserGetWalletSummary", string(httpResponse.Body()))
 	if httpResponse.StatusCode() != 200 {
 		rep := new(ModelError)
 		json.Unmarshal(httpResponse.Body(), &rep)
-		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s", rep.Error_.Name, rep.Error_.Message))
 	}
 	rep := new([]Summary)
 	err = json.Unmarshal(httpResponse.Body(), &rep)

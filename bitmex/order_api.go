@@ -676,7 +676,7 @@ func (a OrderApi) OrderCreate(symbol, side, ordType string, orderQty, price floa
 	formParams["side"] = side
 	formParams["orderQty"] = fmt.Sprintf("%.0f", orderQty)
 	formParams["ordType"] = ordType
-	log.Println("formParams:", formParams)
+	// log.Println("formParams:", formParams)
 	var successPayload = new(Order)
 	SetApiHeader(headerParams, &a.Configuration, httpMethod, path, formParams, queryParams)
 	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, formParams, headerParams, queryParams, nil, fileName, fileBytes)
@@ -689,9 +689,9 @@ func (a OrderApi) OrderCreate(symbol, side, ordType string, orderQty, price floa
 	if httpResponse.StatusCode() != 200 {
 		rep := new(ModelError)
 		json.Unmarshal(httpResponse.Body(), &rep)
-		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s",rep.Error_.Name,rep.Error_.Message))
+		return nil, NewAPIResponse(httpResponse.RawResponse), errors.New(fmt.Sprintf("%s,%s", rep.Error_.Name, rep.Error_.Message))
 	}
-	// log.Println("httpResponse.Body()", string(httpResponse.Body()),err)
+	log.Println("OrderCreate:", string(httpResponse.Body()))
 	rep := new(Order)
 	err = json.Unmarshal(httpResponse.Body(), &rep)
 	return rep, NewAPIResponse(httpResponse.RawResponse), err

@@ -1,31 +1,12 @@
-# BITMEX-API
-
-### For rest api exmple :
-```
 package main
 
 import (
 	"log"
-	"github.com/sunrisedo/bitmex/bitmex"
+	"time"
+
+	"github.com/sunrisedo/bitmex/ws"
 )
 
-func main() {
-    cfg := bitmex.NewConfigurationWithKey("key", "secret")
-    userApi := bitmex.NewUserApiWithConfig(cfg)
-    wallet, response, err := userApi.UserGetWallet("")
-    if err != nil {
-    	log.Println("error: ", err)
-        return
-    }
-    log.Println(response.Status)
-    log.Println("wallet: ", *wallet)
-}
-
-```
-
-
-### For ws exmple :
-```
 var DataSignal = ws.NewDataSignal()
 
 func main() {
@@ -63,4 +44,23 @@ func deal() {
 	}
 }
 
-```
+// func  Analysis() {
+// 	if _, ok := rep["success"]; ok {
+// 		log.Println("success:", rep["success"])
+// 	} else if v, ok := rep["table"]; ok {
+// 		if v == "orderBookL2" {
+// 			c.commands[fmt.Sprintf("orderBookL2:%v",rep["data"]["symbol"])] <-
+// 		}else{
+// 			c.commands[] <-
+// 		}
+// 	}
+// }
+// func (c *WebSocketClient) Subscribe(commands Command) {
+// 	c.commands = commands
+// 	var args []string
+// 	for command, _ := range commands {
+// 		args = append(args, command)
+
+// 	}
+// 	c.Write(Msg{"subscribe", args})
+// }
