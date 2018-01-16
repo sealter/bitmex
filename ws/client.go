@@ -64,7 +64,7 @@ func (c *WebSocketClient) ListenRead() {
 			log.Println("ListenRead closed.")
 			return
 		default:
-			var rep DataStruct
+			var rep Response
 			err := websocket.JSON.Receive(c.ws, &rep)
 			if err == io.EOF {
 				c.err = errors.New("Webscoket connection break.")
@@ -109,6 +109,10 @@ func (c *WebSocketClient) Run() error {
 	go c.ListenWrite()
 	go c.ListenRead()
 	c.ListenHeart()
+
+	close(c.doneSignal)
+	close(c.readSignal)
+	close(c.writeSignal)
 	return c.err
 }
 

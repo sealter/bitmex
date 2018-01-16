@@ -17,7 +17,7 @@ func main() {
 			return
 		}
 
-		client.Subscribe([]string{"orderBookL2:XBTUSD", "orderBookL2:ETHH18"})
+		client.Subscribe([]string{"orderBookL2:XBTUSD"})
 		if err := client.Run(); err != nil {
 			log.Println("Websocket break:", err)
 		}
@@ -43,24 +43,3 @@ func deal() {
 		}
 	}
 }
-
-// func  Analysis() {
-// 	if _, ok := rep["success"]; ok {
-// 		log.Println("success:", rep["success"])
-// 	} else if v, ok := rep["table"]; ok {
-// 		if v == "orderBookL2" {
-// 			c.commands[fmt.Sprintf("orderBookL2:%v",rep["data"]["symbol"])] <-
-// 		}else{
-// 			c.commands[] <-
-// 		}
-// 	}
-// }
-// func (c *WebSocketClient) Subscribe(commands Command) {
-// 	c.commands = commands
-// 	var args []string
-// 	for command, _ := range commands {
-// 		args = append(args, command)
-
-// 	}
-// 	c.Write(Msg{"subscribe", args})
-// }
