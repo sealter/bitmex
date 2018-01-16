@@ -8,11 +8,11 @@ type Msg struct {
 	Args []string `json:"args,omitempty"`
 }
 
-type Response struct {
-	Success   bool        `json:"success,omitempty"`
-	Subscribe string      `json:"subscribe,omitempty"`
-	request   interface{} `json:"request,omitempty"`
-	Table     string      `json:"table,omitempty"`
-	Action    string      `json:"action,omitempty"`
-	Data      interface{} `json:"data,omitempty"`
-}
+// type Response struct {
+// 	Success   bool        `json:"success,omitempty"`
+// 	Subscribe string      `json:"subscribe,omitempty"`
+// 	Request   interface{} `json:"request,omitempty"`
+// 	Table     string      `json:"table,omitempty"`
+// 	Action    string      `json:"action,omitempty"`
+// 	Data      interface{} `json:"data,omitempty"`
+// }
