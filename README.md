@@ -1,6 +1,6 @@
 # BITMEX-API
 
-### For rest api exmple :
+###  REST API EXMPLE :
 ```
 package main
 
@@ -24,7 +24,7 @@ func main() {
 ```
 
 
-### For ws exmple :
+###  WS EXMPLE :
 ```
 var DataSignal = ws.NewDataSignal()
 
