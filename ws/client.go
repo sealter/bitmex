@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io"
 	"log"
+	"time"
 
 	"golang.org/x/net/websocket"
 )
@@ -41,6 +42,7 @@ func NewDataSignal() DataSignal {
 }
 
 func (c *WebSocketClient) ListenWrite() {
+	defer close(c.writeSignal)
 	for {
 		select {
 		case <-c.doneSignal:
@@ -57,6 +59,7 @@ func (c *WebSocketClient) ListenWrite() {
 }
 
 func (c *WebSocketClient) ListenRead() {
+	defer close(c.readSignal)
 	for {
 		select {
 		case <-c.doneSignal:
@@ -106,13 +109,12 @@ func (c *WebSocketClient) ListenHeart() {
 }
 
 func (c *WebSocketClient) Run() error {
+	defer close(c.doneSignal)
 	go c.ListenWrite()
 	go c.ListenRead()
 	c.ListenHeart()
 
-	close(c.doneSignal)
-	close(c.readSignal)
-	close(c.writeSignal)
+	time.Sleep(time.Second)
 	return c.err
 }
 

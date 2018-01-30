@@ -17,3 +17,11 @@ type Response struct {
 	Action    string      `json:"action,omitempty"`
 	Data      interface{} `json:"data,omitempty"`
 }
+
+type BitmexDepth struct {
+	Id     int64   `json:"id,omitempty"`
+	Symbol string  `json:"symbol,omitempty"`
+	Side   string  `json:"side,omitempty"`
+	Price  float64 `json:"price,omitempty"`
+	Size   float64 `json:"size,omitempty"`
+}

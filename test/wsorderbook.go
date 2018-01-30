@@ -35,11 +35,27 @@ func main() {
 	select {}
 }
 
+type BitmexDepth struct {
+	Id     int64   `json:"id,omitempty"`
+	Symbol string  `json:"symbol,omitempty"`
+	Side   string  `json:"side,omitempty"`
+	Price  float64 `json:"price,omitempty"`
+	Size   float64 `json:"size,omitempty"`
+}
+
 func deal() {
 	for {
 		select {
 		case in := <-DataSignal:
-			log.Println("DataSignal:", in)
+			if in.Data == nil {
+			} else {
+				log.Println("DataSignal:", in)
+				// for _, v := range in.Data.([]map[string]interface{}) {
+				// 	log.Println("v:", v)
+				// }
+
+			}
+
 		}
 	}
 }
